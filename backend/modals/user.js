@@ -22,15 +22,15 @@ const User = sequelize.define("user signup", {
     allowNull: false,
   },
   pic: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     defaultValue: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
   },
   isAdmin: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     defaultValue: false
   },
   phoneNumber: {
-    type: DataTypes.STRING
+    type: Sequelize.STRING
     // You can add more constraints or validations here if needed
   }
 });
