@@ -7,7 +7,6 @@ const userRoutes = require("./routes/userRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const chatRoutes = require("./routes/chatRoutes");
 const User = require('./modals/user');
-const chat = require('./modals/chatModel');
 
 const dotenv = require("dotenv");
 
@@ -31,8 +30,7 @@ app.use("/api/chat", chatRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-User.hasMany(chat);
-chat.belongsTo(User)
+
 
 db.sync()
   .then(() => {
