@@ -15,5 +15,15 @@ const sendmessage = asyncHandler(async (req, res) => {
       }
 })
 
+const getmessage = asyncHandler(async (req, res) => {
+    try {
+        const messages = await Message.findAll();
+        res.json(messages);
+      } catch (error) {
+        console.error('Error retrieving messages:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+})
 
-module.exports = {sendmessage}
+
+module.exports = {sendmessage,getmessage}

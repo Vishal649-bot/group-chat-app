@@ -1,5 +1,6 @@
 import  { useState } from 'react';
 import axios from 'axios';
+import ChatMessages from './ChatMessages'
 
 const ChatInput = () => {
   const [message, setMessage] = useState('');
@@ -28,9 +29,13 @@ const ChatInput = () => {
   };
 
   return (
+      <div>
+    <ChatMessages />
+    
     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '10px' }}>
       <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
       <button onClick={handleMessageSubmit}>Send</button>
+    </div>
     </div>
   );
 };
