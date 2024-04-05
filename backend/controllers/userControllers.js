@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../modals/user");
 const generateToken = require("../config/generateToken");
 const bcrypt = require("bcrypt");
+const { Op } = require('sequelize');
 
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -67,7 +68,7 @@ const registerUser = asyncHandler(async (req, res) => {
       console.log("Invalid  password.");
       return res.status(400).json({ error: "Invalid  password." });
     }
-  
+
     if (user) {
       res.json({
         _id: user.id,
@@ -75,7 +76,7 @@ const registerUser = asyncHandler(async (req, res) => {
         email: user.email,
         isAdmin: user.isAdmin,
         pic: user.pic,
-        token: generateToken(user._id),
+        token: generateToken(user.id),
       });
     } else {
       res.status(401);
@@ -83,4 +84,19 @@ const registerUser = asyncHandler(async (req, res) => {
     }
   });
   
-module.exports = {  registerUser,authUser   };
+  const allUsers = asyncHandler(async (req, res) => {
+    try {
+      const users = await User.findAll({
+        where: {
+          id: { [Op.ne]: req.loggedInUserId } // Exclude the logged-in user
+        },
+        attributes: { exclude: ['password'] } // Exclude the password field
+      });
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+  
+module.exports = {  registerUser,authUser, allUsers   };
+
