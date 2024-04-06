@@ -1,6 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import ChangeAdmin from "../ChangeAdmin";
 
 const GroupList = () => {
   const [groups, setGroups] = useState([]);
@@ -82,6 +83,9 @@ const GroupList = () => {
       </Box>
       {selectedGroup && (
         <Box flex="1" padding="20px">
+
+        <ChangeAdmin groupId={selectedGroup.id} data={selectedGroup}/>
+
           <h3>Selected Group</h3>
           <p>Group Name: {selectedGroup.groupName}</p>
           <p>Users:</p>
@@ -102,8 +106,11 @@ const GroupList = () => {
             onChange={(e) => setMessage(e.target.value)}
           />
           <button onClick={handleMessageSend}>Send Message</button>
+
         </Box>
+        
       )}
+      
     </Box>
   );
 };

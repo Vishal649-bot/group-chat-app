@@ -50,4 +50,28 @@ const getGroup = asyncHandler(async (req, res) => {
     }
   });
 
-module.exports = {createGroup, getGroup,getGroupById}
+  const changeGroupadmin = asyncHandler(async (req, res) => {
+    const { groupId } = req.body;
+    const { userId } = req.body;
+
+    try {
+        // Find the group by ID
+        const group = await Group.findByPk(groupId);
+        if (!group) {
+            res.status(404).json({ message: "Group not found" });
+            return;
+        }
+
+        // Update the adminId with the new user ID
+        group.adminId = userId;
+
+        // Save the changes
+        await group.save();
+
+        res.status(200).json({ message: "Admin updated successfully", group });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to update admin", error: error.message });
+    }
+  });
+
+module.exports = {createGroup, getGroup,getGroupById, changeGroupadmin}
