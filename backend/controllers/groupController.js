@@ -1,0 +1,53 @@
+const asyncHandler = require("express-async-handler");
+const Group = require("../modals/group");
+const { Op } = require('sequelize');
+
+
+const createGroup = asyncHandler(async (req, res) => {
+    // Assuming the authenticated user's ID is available in req.user
+    console.log(req.body);
+    const { groupName, users } = req.body;
+    const adminId = req.loggedInUserId
+  
+    try {
+      // Create a new group in the database
+      const group = await Group.create({
+        groupName,
+        adminId,
+        users,
+        // Other properties can be added here as needed
+      });
+  
+      res.status(201).json(group);
+    } catch (error) {
+      res.status(500).json({ message: 'Group creation failed', error: error.message });
+    }
+  });
+
+
+  
+const getGroup = asyncHandler(async (req, res) => {
+    try {
+        const groups = await Group.findAll();
+        res.status(200).json(groups);
+      } catch (error) {
+        res.status(500).json({ message: "Failed to fetch groups", error: error.message });
+      }
+  });
+
+  const getGroupById = asyncHandler(async (req, res) => {
+    const { groupId } = req.params;
+  
+    try {
+      const group = await Group.findByPk(groupId);
+      if (!group) {
+        res.status(404).json({ message: "Group not found" });
+        return;
+      }
+      res.status(200).json(group);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch group details", error: error.message });
+    }
+  });
+
+module.exports = {createGroup, getGroup,getGroupById}

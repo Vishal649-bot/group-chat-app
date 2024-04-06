@@ -6,6 +6,7 @@ const db = require("./utils/db");
 const userRoutes = require("./routes/userRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const chatRoutes = require("./routes/chatRoutes");
+const groupRoutes = require("./routes/groupRoutes");
 const User = require('./modals/user');
 
 const dotenv = require("dotenv");
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/group", groupRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

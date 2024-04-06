@@ -19,6 +19,14 @@ const Message = sequelize.define('message', {
       key: 'id',
     },
   },
+  groupId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    // references: {
+    //   model: User,
+    //   key: 'id',
+    // },
+  },
   message: {
     type: Sequelize.STRING,
     allowNull: false,
